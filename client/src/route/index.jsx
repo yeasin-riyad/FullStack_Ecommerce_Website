@@ -30,8 +30,8 @@ const ProductDisplayPage = lazy(() => import("../pages/ProductDisplayPage"));
 
 const CartMobile = lazy(() => import("../pages/CartMobile"));
 const Checkout = lazy(() => import("../pages/Checkout"));
-const OrderSuccess = lazy(() => import("../pages/orderSuccess"));
-const OrderCancel = lazy(() => import("../pages/orderCancel"));
+const OrderSuccess = lazy(() => import("../pages/OrderSuccess"));
+const OrderCancel = lazy(() => import("../pages/OrderCancel"));
 
 // Common loading component
 const PageLoader = () => (
