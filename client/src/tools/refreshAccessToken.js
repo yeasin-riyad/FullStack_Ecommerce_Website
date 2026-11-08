@@ -17,6 +17,6 @@ export const refreshAccessToken = async (refreshToken) => {
         return response?.data?.data?.access_token;
     } catch (error) {
         console.error("Error refreshing token:", error);
-        throw error; // সমস্যা থাকলে এগিয়ে যাওয়ার জন্য
+        // throw error; 
     }
 };

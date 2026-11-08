@@ -1,141 +1,165 @@
-import {
-    createBrowserRouter,
-    
-  } from "react-router-dom";
+
+import { lazy, Suspense } from "react";
+import { createBrowserRouter } from "react-router-dom";
+
 import App from "../App";
-import Home from "../pages/Home";
-import Search from "../pages/Search";
-import Register from "../pages/Register";
-import Login from "../pages/login";
-import ForgotPassword from "../pages/ForgotPassword";
-import VerifyOtp from "../pages/VerifyOtp";
-import PasswordResetForm from "../pages/PasswordResetForm";
-import UserMenuMobile from "../pages/UserMenuMobile";
-import MyOrder from "../pages/MyOrder";
 import Dashboard from "../layout/Dashboard";
-import Profile from "../pages/Profile";
-import Address from "../pages/Address";
-import UploadProduct from "../pages/UploadProduct";
-import Category from "../pages/Category";
-import SubCategory from "../pages/SubCategory";
-import ProductAdmin from "../pages/ProductAdmin";
 import AdminPermission from "../components/AdminPermission";
-import ProductListPage from "../pages/ProductListPage";
-import ProductDisplayPage from "../pages/ProductDisplayPage";
-import CartMobile from "../pages/CartMobile";
-import Checkout from "../pages/Checkout";
-import OrderSuccess from "../pages/orderSuccess";
-import OrderCancel from "../pages/orderCancel";
-  
-  
-  
-  
-  const router = createBrowserRouter([
+
+// Lazy loaded pages
+const Home = lazy(() => import("../pages/Home"));
+const Search = lazy(() => import("../pages/Search"));
+const Register = lazy(() => import("../pages/Register"));
+const Login = lazy(() => import("../pages/login"));
+const ForgotPassword = lazy(() => import("../pages/ForgotPassword"));
+const VerifyOtp = lazy(() => import("../pages/VerifyOtp"));
+const PasswordResetForm = lazy(() => import("../pages/PasswordResetForm"));
+
+const UserMenuMobile = lazy(() => import("../pages/UserMenuMobile"));
+const MyOrder = lazy(() => import("../pages/MyOrder"));
+const Profile = lazy(() => import("../pages/Profile"));
+const Address = lazy(() => import("../pages/Address"));
+
+const UploadProduct = lazy(() => import("../pages/UploadProduct"));
+const Category = lazy(() => import("../pages/Category"));
+const SubCategory = lazy(() => import("../pages/SubCategory"));
+const ProductAdmin = lazy(() => import("../pages/ProductAdmin"));
+
+const ProductListPage = lazy(() => import("../pages/ProductListPage"));
+const ProductDisplayPage = lazy(() => import("../pages/ProductDisplayPage"));
+
+const CartMobile = lazy(() => import("../pages/CartMobile"));
+const Checkout = lazy(() => import("../pages/Checkout"));
+const OrderSuccess = lazy(() => import("../pages/orderSuccess"));
+const OrderCancel = lazy(() => import("../pages/orderCancel"));
+
+// Common loading component
+const PageLoader = () => (
+  <div className="flex min-h-[60vh] items-center justify-center">
+    <div className="h-10 w-10 animate-spin rounded-full border-4 border-gray-300 border-t-black" />
+  </div>
+);
+
+// Reusable Suspense wrapper
+const withSuspense = (Component) => (
+  <Suspense fallback={<PageLoader />}>
+    <Component />
+  </Suspense>
+);
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+    children: [
       {
-        path: "/",
-        element: <App/>,
+        index: true,
+        element: withSuspense(Home),
+      },
+      {
+        path: "search-page",
+        element: withSuspense(Search),
+      },
+      {
+        path: "my-account",
+        element: withSuspense(UserMenuMobile),
+      },
+      {
+        path: "dashboard",
+        element: <Dashboard />,
         children: [
           {
-            index: true,
-            element:<Home/>,
+            path: "profile",
+            element: withSuspense(Profile),
           },
           {
-            path:"/search-page",
-            element:<Search/>
+            path: "my-order",
+            element: withSuspense(MyOrder),
           },
           {
-            path:"/my-account",
-            element:<UserMenuMobile/>
-          },
-         
-          {
-            path:"/dashboard",
-            element:<Dashboard/>,
-            children:[
-              {
-                path:'profile',
-                element:<Profile/>
-              },
-              {
-                path:'my-order',
-                element:<MyOrder/>
-              },
-              {
-                path:'address',
-                element:<Address/>
-              },
-              {
-                path:'products',
-                element:<AdminPermission><ProductAdmin/></AdminPermission>
-              },
-              {
-                path:"upload-product",
-                element:<AdminPermission><UploadProduct/></AdminPermission>
-              },
-              {
-                path:'category',
-                element:<AdminPermission><Category/></AdminPermission>
-              },
-              {
-                path:'sub-category',
-                element:<AdminPermission><SubCategory/></AdminPermission>
-              }
-            ]
+            path: "address",
+            element: withSuspense(Address),
           },
           {
-            path:"/:category",
-            children: [
-              {
-                path:":sub-category",
-                element:<ProductListPage/>
-              }
-            ],
+            path: "products",
+            element: (
+              <AdminPermission>
+                {withSuspense(ProductAdmin)}
+              </AdminPermission>
+            ),
           },
           {
-            path:"/product/:productId",
-            element:<ProductDisplayPage/> 
+            path: "upload-product",
+            element: (
+              <AdminPermission>
+                {withSuspense(UploadProduct)}
+              </AdminPermission>
+            ),
           },
           {
-            path:"cart",
-            element:<CartMobile/>
+            path: "category",
+            element: (
+              <AdminPermission>
+                {withSuspense(Category)}
+              </AdminPermission>
+            ),
           },
           {
-            path:"checkout",
-            element:<Checkout/>
+            path: "sub-category",
+            element: (
+              <AdminPermission>
+                {withSuspense(SubCategory)}
+              </AdminPermission>
+            ),
           },
-          {
-            path:"order-success",
-            element:<OrderSuccess/>
-          },
-          {
-            path:"order-cancel",
-            element:<OrderCancel/>
-          }
-        ]
+        ],
       },
       {
-        path:"/register",
-        element:<Register/>
+        path: ":category/:sub-category",
+        element: withSuspense(ProductListPage),
       },
       {
-        path:"/login",
-        element:<Login/>
+        path: "product/:productId",
+        element: withSuspense(ProductDisplayPage),
       },
-    {
-      path:"forgot-password",
-      element:<ForgotPassword/>
-    },
-    {
-      path:"verify-otp",
-      element:<VerifyOtp/>
-    },
-    {
-      path:"password-reset",
-      element:<PasswordResetForm/>
-    }
+      {
+        path: "cart",
+        element: withSuspense(CartMobile),
+      },
+      {
+        path: "checkout",
+        element: withSuspense(Checkout),
+      },
+      {
+        path: "order-success",
+        element: withSuspense(OrderSuccess),
+      },
+      {
+        path: "order-cancel",
+        element: withSuspense(OrderCancel),
+      },
+    ],
+  },
+  {
+    path: "/register",
+    element: withSuspense(Register),
+  },
+  {
+    path: "/login",
+    element: withSuspense(Login),
+  },
+  {
+    path: "/forgot-password",
+    element: withSuspense(ForgotPassword),
+  },
+  {
+    path: "/verify-otp",
+    element: withSuspense(VerifyOtp),
+  },
+  {
+    path: "/password-reset",
+    element: withSuspense(PasswordResetForm),
+  },
+]);
 
-    ]);
-  
-    export default router;
-  
-  
+export default router;

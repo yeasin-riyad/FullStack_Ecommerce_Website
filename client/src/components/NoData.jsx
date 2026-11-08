@@ -1,4 +1,3 @@
-import React from 'react'
 import NoDataImage from '../assets/NoData.webp'
 
 const NoData = ({text}) => {

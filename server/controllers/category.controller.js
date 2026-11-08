@@ -1,7 +1,9 @@
+import { categoryUpload } from "../middleware/uploadCategoryMulter.js";
 import categoryModel from "../models/category.model.js";
 import ProductModel from "../models/product.model.js";
 import SubCategoryModel from "../models/subCategory.model.js";
 import uploadCategoryImageCloudinary from "../utils/uploadCategoryImageCloudinary.js";
+import uploadSubCategoryImageCloudinary from "../utils/uploadSubCategoryImageCloudinary.js";
 
 export const AddCategoryController = async (req, res) => {
   try {
@@ -30,7 +32,9 @@ export const AddCategoryController = async (req, res) => {
     }
 
         const categoryImage = req?.file;
-        const image=await uploadCategoryImageCloudinary(categoryImage)
+        // const image=await uploadSubCategoryImageCloudinaryy(categoryImage)
+        // const image= await categoryUpload(categoryImage);
+        const image = await uploadCategoryImageCloudinary(categoryImage)
 
     // Create category instance
     const category = new categoryModel({
@@ -48,6 +52,7 @@ export const AddCategoryController = async (req, res) => {
       data: savedCategory,
     });
   } catch (e) {
+    console.log(e,"Errors..")
     // Handle duplicate key error specifically
     if (e.code === 11000) {
       return res.status(400).json({

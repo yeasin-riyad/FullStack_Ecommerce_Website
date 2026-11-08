@@ -23,7 +23,7 @@ const app = express();
 
 app.use(cors(
     {
-        // origin: process.env.FRONTEND_URL,
+        origin: process.env.FRONTEND_URL,
         credentials: true,
         methods: ['GET', 'POST', 'PUT', 'DELETE'],
         allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
@@ -34,7 +34,7 @@ app.use(express.urlencoded({ extended: true })); // Form Data পার্স �
 
 app.use(express.json());  // JSON পার্স করার জন্য middleware
 app.use(cookieParser());
-app.use(morgan());
+// app.use(morgan());
 
 app.use(helmet(
     {
@@ -64,4 +64,6 @@ connectDB().then(()=>{
     app.listen(port, () => console.log(`Server running on port ${port}`))
 });
 
+
+export default app;
 
