@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import banner from "../assets/banner.jpg";
 import mobileBanner from "../assets/banner-mobile.jpg";
 import { validUrlConvert } from "../tools/validUrlConvert";
-import CategoryWiseProductDisplay from "../components/categoryWiseProductDisplay";
+import CategoryWiseProductDisplay from "../components/CategoryWiseProductDisplay";
 
 const SKELETON_ITEMS = Array.from({ length: 20 }, (_, index) => index);
 
