@@ -8,7 +8,7 @@ import helmet from 'helmet';
 
 
 // Internal Imports --------------------------------
-import connectDB from './config/connectDb.js';
+import connectDB from './config/connectDB.js';
 import userRouter from './route/user.route.js';
 import categoryRouter from './route/category.route.js';
 import subCategoryRouter from './route/subCategory.route.js';
