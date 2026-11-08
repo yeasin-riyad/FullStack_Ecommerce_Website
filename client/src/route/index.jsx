@@ -10,7 +10,7 @@ import AdminPermission from "../components/AdminPermission";
 const Home = lazy(() => import("../pages/Home"));
 const Search = lazy(() => import("../pages/Search"));
 const Register = lazy(() => import("../pages/Register"));
-const Login = lazy(() => import("../pages/login"));
+const Login = lazy(() => import("../pages/Login"));
 const ForgotPassword = lazy(() => import("../pages/ForgotPassword"));
 const VerifyOtp = lazy(() => import("../pages/VerifyOtp"));
 const PasswordResetForm = lazy(() => import("../pages/PasswordResetForm"));
