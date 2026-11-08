@@ -29,6 +29,7 @@ import { useGlobalContext } from "../provider/GlobalContextProvider";
 import { BsPlus } from "react-icons/bs";
 import { LuMinus } from "react-icons/lu";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import ProductDetailsSkeleton from "../components/ProductDetailsSkeleton";
 
 // Static data outside component
 const SHOP_BENEFITS = [
@@ -292,9 +293,7 @@ const ProductDisplayPage = () => {
 
   if (loading) {
     return (
-      <section className="container mx-auto p-4">
-        <p>Loading product...</p>
-      </section>
+      <ProductDetailsSkeleton/>
     );
   }
 
